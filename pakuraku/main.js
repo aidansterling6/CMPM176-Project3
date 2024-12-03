@@ -35,6 +35,8 @@ let showSeaLevel = false;
 let showwellbeing = false;
 let showEcosys = false;
 
+let gameOverCause = "";
+
 let clickedToday;
 let daysSinceClick;
 
@@ -131,11 +133,22 @@ function update() {
 
   //Check game over conditions
     //TODO: Maybe give messages based on which gave a game over.
-  if (earthResource <= 0 ||
-  ecosystem <= 5 ||
-  temp <= -10 || temp >= 130 ||
-  seaLevel <= 5 || seaLevel > 120 ||
-  wellbeing <= 0) {
-      end();
-  }
+    if (earthResource <= 0) {
+      gameOverCause = "Earth resources ran out!";
+      end(gameOverCause);
+    } else if (ecosystem <= 5) {
+      gameOverCause = "Ecosystem health is too low!";
+      end(gameOverCause);
+    } else if (temp <= -10 || temp >= 130) {
+      gameOverCause = "Temperature reached an extreme!";
+      end(gameOverCause);
+    } else if (seaLevel <= 5 || seaLevel > 120) {
+      gameOverCause = "Sea level became too extreme!";
+      end(gameOverCause);
+    } else if (wellbeing <= 0) {
+      gameOverCause = "Wellbeing has dropped to zero!";
+      
+      end(gameOverCause);
+    }
+
 }
