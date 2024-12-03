@@ -29,11 +29,12 @@ let temp;
 let seaLevel;
 let wellbeing;
 
+let debug = false;
 //Setting these like this means that by default they are hidden, but once they are seen, continuing to play, even after game over, continues to allow them to be seen, which I think is really neat.
-let showTemp = false;
-let showSeaLevel = false;
-let showwellbeing = false;
-let showEcosys = false;
+let showTemp = debug;
+let showSeaLevel = debug;
+let showwellbeing = debug;
+let showEcosys = debug;
 
 let gameOverCause = "";
 
@@ -103,20 +104,20 @@ function update() {
   }
 
   //Have day progress
-  day = (day + .5) % 70;
-  if (day === 69.5){
+  day = (day + 1) % 70;
+  if (day === 69){
     //Put calcs here.
       //Each day these values change based on each other.
       //The intended experience is to maximize industry and therefore maximize points, UNTIL a variable reveals itself showing its getting bad, at that point it is likely too late.
       //So the player has to balance these things.
       //The intended way to continue the system is to continue with endless growth, you break out/push back against the system by not clicking, not engaging.
     let TEMPeco = ecosystem+clamp(.04*ecosystem, 0, 1)+((.007*earthResource)+(-.045*industry)+(-.0225*temp)+(-.0225*seaLevel))/4;
-    let TEMPearthResource = earthResource + ((-.014*industry)+(.03*ecosystem)+(-.02*temp))/3;
+    let TEMPearthResource = earthResource + ((.03*ecosystem)+(-.03*temp))/2;
     let TEMPtemp = temp + ((.04*industry)+(-.009*ecosystem)+(-.01*seaLevel))/3;
     let TEMPseaLevel = seaLevel + ((.025*temp)+(-.005*ecosystem))/2;
     let TEMPwellbeing = wellbeing + ((.015*industry)+(.02*ecosystem)+(-.03*temp)+(-.03*seaLevel))/4
-    ecosystem = clamp(Math.round(TEMPeco), -1, 150);
-    earthResource = clamp(Math.round(TEMPearthResource), -1, 200);
+    ecosystem = clamp(Math.round(TEMPeco), -1, 300);
+    earthResource = Math.round(TEMPearthResource);
     temp = Math.round(TEMPtemp);
     seaLevel = Math.round(TEMPseaLevel);
     wellbeing = Math.round(TEMPwellbeing);
@@ -138,11 +139,13 @@ function update() {
   text("Ecosystem\nConservation\nProgram", 80, 83, LetterOptions)
 
     //On pressing button increase industry
-  if(input.isJustPressed && input.pos.isInRect(80,80, 40, 20)){
+  if(industry > 0 && ecosystem < 300 && score > 0 && input.isJustPressed && input.pos.isInRect(80,80, 40, 20)){
     particle(input.pos.x, 80, 20, 1.1, -PI/2, PI/2)
     industry -= 5;
-    addScore(-300);
+    industry = clamp(industry, 0, 9999);
+    addScore(-500);
     ecosystem += 20;
+    ecosystem = clamp(ecosystem, -1, 300); //Idk what the limit should be, but I think it makes sense for ecosystem to have a limit, thus a sort of carrying capacity.
     play("laser");
   }
 }
