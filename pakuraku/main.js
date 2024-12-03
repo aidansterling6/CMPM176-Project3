@@ -128,8 +128,25 @@ function update() {
     }
     addScore(industry);
   }
-
   //TODO: Maybe button that unlock after getting all variables, which costs alot of money/score but improves a specific variable, or the current most dangerous one?
+  if (showEcosys && showSeaLevel && showwellbeing && showTemp) {
+  color("light_black");
+  rect(70,80, 60, 20);
+  color("black");
+  rect(71,81, 58, 18);
+  color("light_black");
+  text("Ecosystem\nConservation\nProgram", 80, 83, LetterOptions)
+
+    //On pressing button increase industry
+  if(input.isJustPressed && input.pos.isInRect(80,80, 40, 20)){
+    particle(input.pos.x, 80, 20, 1.1, -PI/2, PI/2)
+    industry -= 5;
+    addScore(-300);
+    ecosystem += 20;
+    play("laser");
+  }
+}
+
 
   //Check game over conditions
     //TODO: Maybe give messages based on which gave a game over.
