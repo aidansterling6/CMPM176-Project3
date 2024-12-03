@@ -3785,7 +3785,7 @@ lll
         if (exports.isReplaying) {
             return;
         }
-        print(gameOverText, Math.floor((size.x - gameOverText.length * letterSize) / 2), Math.floor(size.y / 2));
+        print(gameOverText, Math.floor((size.x - gameOverText.length * letterSize) / 2), Math.floor(size.y / 1.2));
     }
     function initRewind() {
         state = "rewind";
