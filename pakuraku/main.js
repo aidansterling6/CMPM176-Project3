@@ -57,8 +57,8 @@ function update() {
   clickedToday = false;
 
   // Display information (Time, Resources, Score)
-  color("black");
-  rect(24, 10, 70, 2);
+  color("red");
+  rect(24, 10, 60, 2);
   color("light_red");
   text(`Time:`, 3, 10, LetterOptions); //drawn combo
   rect(24, 10, day, 2);
@@ -104,8 +104,8 @@ function update() {
   }
 
   //Have day progress
-  day = (day + 1) % 70;
-  if (day === 69){
+  day = (day + 1.25) % 60;
+  if (day >= 58){
     //Put calcs here.
       //Each day these values change based on each other.
       //The intended experience is to maximize industry and therefore maximize points, UNTIL a variable reveals itself showing its getting bad, at that point it is likely too late.
@@ -126,8 +126,9 @@ function update() {
     }
     if (daysSinceClick > 5) {
       industry = clamp(industry - (Math.ceil((daysSinceClick - 5)/10)), 0, 9999);
+      play("laser");
     }
-    addScore(industry);
+    addScore(industry, 45, 20);
   }
   //TODO: Maybe button that unlock after getting all variables, which costs alot of money/score but improves a specific variable, or the current most dangerous one?
   if (showEcosys && showSeaLevel && showwellbeing && showTemp) {
